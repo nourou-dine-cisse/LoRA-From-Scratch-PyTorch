@@ -9,6 +9,10 @@ An implementation from first principles of **Low-Rank Adaptation (LoRA)** for Pa
 
 ---
 
+> 🇫🇷 **Note aux recruteurs francophones** : Un résumé rapide du projet en français est disponible en fin de document — [Consulter le résumé en français](#-résumé-rapide-en-français).
+
+---
+
 ## 📌 Executive Summary & Key Results
 
 Instead of fine-tuning all 108M parameters of BERT for downstream sentiment classification (IMDB), this project implements low-rank weight decomposition matrices injected directly into multi-head self-attention projections ($W_q, W_k, W_v$).
@@ -137,6 +141,20 @@ Open `lora.ipynb` in Jupyter Lab or VS Code to reproduce the comparative benchma
 - Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., & Chen, W. (2021). *LoRA: Low-Rank Adaptation of Large Language Models*. arXiv preprint [arXiv:2106.09685](https://arxiv.org/abs/2106.09685).
 - Aghajanyan, A., Zettlemoyer, L., & Gupta, S. (2020). *Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning*. arXiv preprint [arXiv:2012.13255](https://arxiv.org/abs/2012.13255).
 - Vaswani, A., et al. (2017). *Attention Is All You Need*. NeurIPS 2017.
+
+---
+---
+
+## 🇫🇷 Résumé Rapide en Français
+
+Ce projet propose une implémentation complète from scratch sous **PyTorch** de la technique **LoRA (Low-Rank Adaptation)** pour le fine-tuning économe en paramètres (**PEFT**) de modèles Transformers et Grands Modèles de Langage (LLMs), suivant les principes de [Hu et al., 2021](https://arxiv.org/abs/2106.09685).
+
+Plutôt que d'adapter l'intégralité des 108 millions de paramètres de BERT pour la classification de sentiment sur IMDB :
+- Nous gelons 99,6 % des poids du modèle de base.
+- Nous injectons une décomposition matricielle de bas rang $W = W_0 + \frac{\alpha}{r} BA$ sur les projections d'attention ($W_q, W_k, W_v$).
+- À l'inférence, les matrices entraînées sont fusionnées directement dans les poids de base, garantissant **une surcharge de latence strictement nulle (0 ms)**.
+
+**Résultat clé** : avec seulement **0,41 % de paramètres entraînés** (443 906 paramètres), notre modèle atteint **87,9 % de précision** sur le jeu de test IMDB, rivalisant avec les 90,9 % du fine-tuning intégral tout en divisant drastiquement l'empreinte mémoire d'entraînement.
 
 ---
 
